@@ -6,6 +6,15 @@ to be retrained with the same cadence, necessitating an end-to-end pipeline that
 
 In this project you will build such a pipeline.
 
+## Project links
+
+- GitHub repository: [Project-Build-an-ML-Pipeline-Starter](https://github.com/cristianbagatela-ops/Project-Build-an-ML-Pipeline-Starter)
+- Weights & Biases project: [nyc_airbnb](https://wandb.ai/cristian-bagatela-western-governors-university/nyc_airbnb)
+
+## Cleaned data artifacts
+
+The cleaning step publishes both `clean_sample.csv` and `clean_data.csv` with the same filtered rows. The pipeline and the W&B `reference` alias workflow use `clean_sample.csv`; `clean_data.csv` is published to match the artifact name listed in the project rubric.
+
 ## Table of contents
 
 - [Preliminary steps](#preliminary-steps)
