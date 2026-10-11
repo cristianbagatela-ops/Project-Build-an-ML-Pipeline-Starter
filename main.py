@@ -43,9 +43,9 @@ def go(config: DictConfig):
                 env_manager="conda",
                 parameters={
                     "sample": config["etl"]["sample"],
-                    "artifact_name": "sample.csv",
-                    "artifact_type": "raw_data",
-                    "artifact_description": "Raw file as downloaded"
+                    "artifact_name": config["artifacts"]["raw"]["name"],
+                    "artifact_type": config["artifacts"]["raw"]["type"],
+                    "artifact_description": config["artifacts"]["raw"]["description"],
                 },
             )
 
@@ -55,10 +55,10 @@ def go(config: DictConfig):
                 "main",
                 env_manager="conda",
                 parameters={
-                    "input_artifact": "sample.csv:latest",
-                    "output_artifact": "clean_sample.csv",
-                    "output_type": "clean_sample",
-                    "output_description": "Cleaned Airbnb data",
+                    "input_artifact": config["artifacts"]["raw"]["latest"],
+                    "output_artifact": config["artifacts"]["clean"]["name"],
+                    "output_type": config["artifacts"]["clean"]["type"],
+                    "output_description": config["artifacts"]["clean"]["description"],
                     "min_price": config["etl"]["min_price"],
                     "max_price": config["etl"]["max_price"],
                 },
@@ -70,8 +70,8 @@ def go(config: DictConfig):
                 "main",
                 env_manager="conda",
                 parameters={
-                    "csv": "clean_sample.csv:latest",
-                    "ref": "clean_sample.csv:reference",
+                    "csv": config["artifacts"]["clean"]["latest"],
+                    "ref": config["artifacts"]["clean"]["reference"],
                     "kl_threshold": config["data_check"]["kl_threshold"],
                     "min_price": config["etl"]["min_price"],
                     "max_price": config["etl"]["max_price"],
@@ -84,7 +84,7 @@ def go(config: DictConfig):
                 "main",
                 env_manager="conda",
                 parameters={
-                    "input": "clean_sample.csv:latest",
+                    "input": config["artifacts"]["clean"]["latest"],
                     "test_size": config["modeling"]["test_size"],
                     "random_seed": config["modeling"]["random_seed"],
                     "stratify_by": config["modeling"]["stratify_by"],
@@ -106,13 +106,13 @@ def go(config: DictConfig):
                 "main",
                 env_manager="conda",
                 parameters={
-                    "trainval_artifact": "trainval_data.csv:latest",
+                    "trainval_artifact": config["artifacts"]["split"]["trainval"],
                     "val_size": config["modeling"]["val_size"],
                     "random_seed": config["modeling"]["random_seed"],
                     "stratify_by": config["modeling"]["stratify_by"],
                     "rf_config": rf_config,
                     "max_tfidf_features": config["modeling"]["max_tfidf_features"],
-                    "output_artifact": "model_export",
+                    "output_artifact": config["artifacts"]["model"]["name"],
                 },
             )
 
@@ -122,8 +122,8 @@ def go(config: DictConfig):
                 "main",
                 env_manager="conda",
                 parameters={
-                    "mlflow_model": "model_export:prod",
-                    "test_dataset": "test_data.csv:latest",
+                    "mlflow_model": config["artifacts"]["model"]["production"],
+                    "test_dataset": config["artifacts"]["split"]["test"],
                 },
             )
 

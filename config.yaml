@@ -11,6 +11,24 @@ etl:
   max_price: 350  # dollars
 data_check:
   kl_threshold: 0.2
+artifacts:
+  raw:
+    name: sample.csv
+    type: raw_data
+    description: Raw file as downloaded
+    latest: sample.csv:latest
+  clean:
+    name: clean_sample.csv
+    type: clean_sample
+    description: Cleaned Airbnb data
+    latest: clean_sample.csv:latest
+    reference: clean_sample.csv:reference
+  split:
+    trainval: trainval_data.csv:latest
+    test: test_data.csv:latest
+  model:
+    name: model_export
+    production: model_export:prod
 modeling:
   # Fraction of data to use for test (the remaining will be used for train and validation)
   test_size: 0.2
